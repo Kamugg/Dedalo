@@ -2,28 +2,17 @@ from dedalo.maze import Maze
 
 def dfs(maze: Maze):
     stack = []
-    current_pos = (3, 3)
-    n = maze.get_neighbors(current_pos)
-    stack = [(k, v['pos']) for k, v in n.items() if (v is not None) and v['is_new']] + stack
+    current_pos = maze.get_initial_pos()
+    neighbors = maze.get_neighbors(current_pos)
+    stack = neighbors + stack
     while stack:
-        print(stack)
-        d, p = stack.pop(0)
-        while maze.maze[p[1]][p[0]] == 1:
-            if stack:
-                d, p = stack.pop(0)
-            else:
-                break
-        if not stack and maze.maze[p[1]][p[0]] == 1:
+        direction, data = stack.pop(0)
+        new_pos, current_pos = data['pos'], data['orig_pos']
+        if not maze.is_new(new_pos):
             continue
-        maze.create_path(current_pos, d)
-        current_pos = p
+        maze.create_path(current_pos, direction)
+        current_pos = new_pos
         yield
-        n = maze.get_neighbors(current_pos)
-        stack = [(k, v['pos']) for k, v in n.items() if (v is not None) and v['is_new']] + stack
+        neighbors = maze.get_neighbors(current_pos)
+        stack = neighbors + stack
     return
-
-maze = Maze(10)
-count = 0
-print(maze)
-for _ in dfs(maze):
-    print(maze)
