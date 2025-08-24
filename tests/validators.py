@@ -1,6 +1,6 @@
 from itertools import product
 
-from dedalo.maze import Maze
+from run_dedalo.maze import Maze
 
 
 def check_wall_integrity(maze: Maze):

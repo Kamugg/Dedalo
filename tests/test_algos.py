@@ -1,5 +1,5 @@
 from algorithms.dfs import dfs
-from dedalo.maze import Maze
+from run_dedalo.maze import Maze
 from tests.validators import check_maze
 
 test_range = [2**i for i in range(1, 9)]
